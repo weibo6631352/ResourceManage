@@ -7,6 +7,6 @@ public:
 	CgalClassif();
 	~CgalClassif();
 
-	//bool classif(std::string inputfile);
+	bool static classif(std::string inputfile);
 };
 

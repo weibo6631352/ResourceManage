@@ -33,6 +33,36 @@ void Common::ExtractCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, pcl::Poi
 	extract.filter(*out_cloud);
 }
 
+void Common::ExtractColorCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, pcl::PointCloud<pcl::PointXYZRGB>::Ptr out_cloud)
+{
+	out_cloud->reserve(cloud->size());
+	pcl::PointXYZRGB *trvPt;
+	for (int i = 0; i < cloud->size(); ++i)
+	{
+		trvPt = &cloud->at(i);
+		if (trvPt->r == 255 && trvPt->g == 255 && trvPt->b == 255)
+		{
+			out_cloud->push_back(*trvPt);
+		}
+	}
+}
+
+void Common::ExtractColorCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud)
+{
+	pcl::PointCloud<pcl::PointXYZRGB>::Ptr out_cloud(new pcl::PointCloud<pcl::PointXYZRGB>);
+	out_cloud->reserve(cloud->size());
+	pcl::PointXYZRGB *trvPt;
+	for (int i = 0; i < cloud->size(); ++i)
+	{
+		trvPt = &cloud->at(i);
+		if (trvPt->r == 255 && trvPt->g == 255 && trvPt->b == 255)
+		{
+			out_cloud->push_back(*trvPt);
+		}
+	}
+	cloud = out_cloud;
+}
+
 void Common::GenerateCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, pcl::PointIndicesPtr inices)
 {
 	//for (pcl::PointCloud<pcl::PointXYZRGB>::iterator it = cloud->begin(); it != cloud->end(); ++it)

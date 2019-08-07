@@ -13,7 +13,7 @@
 #include "GroundExtract.h"
 #include "GridProcess.h"
 #include "BingHaiProcess.h"
-
+#include "CgalClassif.h"
 
 
 int main(int argc, char *argv[])
@@ -21,7 +21,8 @@ int main(int argc, char *argv[])
 	QApplication a(argc, argv);
 	QDialog w;
 
-	Setting::ins().input_file_ = "C:/Users/wang/Desktop/190511_014154_60.las";
+	//Setting::ins().input_file_ = "C:/Users/wang/Desktop/190511_014154_60.las";
+	Setting::ins().input_file_ = "H:/data/src/city.las";
 	Setting::ins().outdir_ = "C:/Users/wang/Desktop/";
 	Setting::ins().zone = 51;
 	Setting::ins().southhemi = false;
@@ -34,7 +35,9 @@ int main(int argc, char *argv[])
 	Setting::ins().groundExact_.slope = 0.7;
 	Setting::ins().groundExact_.windowsize = 2;
 
-	
+	std::string groundLas = Setting::ins().outdir_ + "ground_.las";
+
+
 	pcl::PointCloud<pcl::PointXYZRGB>::Ptr src_cloud(new pcl::PointCloud<pcl::PointXYZRGB>);
 	pcl::PointCloud<pcl::PointXYZRGB>::Ptr ground_cloud(new pcl::PointCloud<pcl::PointXYZRGB>);
 	pcl::PointCloud<pcl::PointXYZRGB>::Ptr grid_cloud(new pcl::PointCloud<pcl::PointXYZRGB>);
@@ -49,7 +52,7 @@ int main(int argc, char *argv[])
 	pcl::PointIndicesPtr ground_indices(new pcl::PointIndices);
 
 
-	//	测试临时屏蔽
+	// 测试临时屏蔽
 	// 提取地面
 	GroundExtract::FindGroundIndices(src_cloud, cloud_indices, ground_indices);
 	if (ground_indices->indices.size() < 2)
@@ -58,17 +61,13 @@ int main(int argc, char *argv[])
 	
 
 	Common::ExtractCloud(src_cloud, ground_indices, ground_cloud);
-	pct::io::save_las_off(ground_cloud, Setting::ins().outdir_ + "ground_.las");
+	pct::io::save_las_off(ground_cloud, groundLas);
 
-
-
-	//	测试临时代码
-	// 提取地面
-	//Common::GenerateCloud(src_cloud,  ground_indices);
-	//
-
-
-
+	
+	CgalClassif::classif(groundLas);
+	pct::io::Load_las_off(src_cloud, groundLas);
+	Common::ExtractColorCloud(src_cloud);
+	Common::GenerateCloud(src_cloud, ground_indices);
 
 	//建立网格
 	boost::shared_ptr<GridProcess> gp(new GridProcess);

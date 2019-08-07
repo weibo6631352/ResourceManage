@@ -419,7 +419,7 @@ void Point_set_item_classification::change_color (int index)
       for (Point_set::const_iterator it = m_points->point_set()->begin();
            it != m_points->point_set()->first_selected(); ++ it)
         {
-          float v = std::max (0.f, feature->value(*it) / max);  //当前特征值与最大特征值占得比重
+          float v = (std::max) (0.f, feature->value(*it) / max);  //当前特征值与最大特征值占得比重
           m_red[*it] = (unsigned char)(ramp.r(v) * 255);  //  根据比重调整
           m_green[*it] = (unsigned char)(ramp.g(v) * 255);
           m_blue[*it] = (unsigned char)(ramp.b(v) * 255);
