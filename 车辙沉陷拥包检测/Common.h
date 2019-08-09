@@ -15,7 +15,7 @@ public:
 	void static GenerateCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, pcl::PointIndicesPtr inices);
 	void static ExtractCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, pcl::PointIndicesPtr inices, pcl::PointCloud<pcl::PointXYZRGB>::Ptr out_cloud);
 	void static ExtractColorCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, pcl::PointCloud<pcl::PointXYZRGB>::Ptr out_cloud);
-	void static ExtractColorCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud);
+	void static ExtractColorCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr &cloud);
 	void static GetMinMax3D(const pcl::PointCloud<pcl::PointXYZRGB> &cloud, const pcl::PointIndices &indices, pcl::PointXYZRGB &min_pt, pcl::PointXYZRGB &max_pt);
 	void static Sample(pcl::PointCloud<pcl::PointXYZRGB> &cloud, double gridsize);
 	void static Grid2Cloud(boost::shared_ptr<double> grid, int row, int col, double gd_size, pcl::PointCloud<pcl::PointXYZRGB> &cloud);

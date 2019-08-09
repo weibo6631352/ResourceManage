@@ -22,7 +22,7 @@ bool CgalClassif::classif(std::string inputfile)
  	int method = 0;
  
  	std::string labelname_traverse;
- 	std::string config_xml = Setting::ins().app_path_ + "/config.xml";
+ 	std::string config_xml = Setting::ins().app_path_ + "/road.xml";
  
  	std::cout << "加载simple.las..." << std::endl;
  	boost::shared_ptr<Scene_points_with_normal_item> scene_item(pct::io::lasload(inputfile));
@@ -30,7 +30,8 @@ bool CgalClassif::classif(std::string inputfile)
  	{
  		// 计算特征
  		std::cout << "计算特征..." << std::endl;
- 		boost::shared_ptr<Point_set_item_classification> classifyy(new Point_set_item_classification(scene_item.get()));
+		boost::shared_ptr<Point_set_item_classification> classifyy(new Point_set_item_classification(scene_item.get()));
+
  		classifyy->compute_features(3);
  
  		// 添加label
@@ -54,9 +55,9 @@ bool CgalClassif::classif(std::string inputfile)
 		std::cout << "分类..." << std::endl;
 		classifyy->run(method, 0, 16, 0.5);
 		std::cout << "保存..." << std::endl;
-		std::string outpath = inputfile;
-		std::cout << outpath << std::endl;
- 		pct::io::lassave(scene_item.get(), outpath);
+		std::string outputfile = inputfile;
+		std::cout << outputfile << std::endl;
+		pct::io::lassave(scene_item.get(), outputfile);
  	}
  	return true;
  }

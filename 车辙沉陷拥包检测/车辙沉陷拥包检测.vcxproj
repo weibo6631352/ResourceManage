@@ -55,7 +55,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PreprocessorDefinitions>WIN32;_WIN64;NDEBUG;_CONSOLE;CGAL_LINKED_WITH_TBB;CGAL_USE_GMP;CGAL_LINKED_WITH_LASLIB;USE_FORWARD_DECL;QT_WIDGETS_LIB;QT_GUI_LIB;QT_CORE_LIB;QT_NO_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <DebugInformationFormat />
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <AdditionalIncludeDirectories>$(SolutionDir)\$(ProjectName)\include;$(SolutionDir)\$(ProjectName)\Classification;$(SolutionDir)\$(ProjectName);$(SolutionDir)\$(ProjectName)\Polyhedron;$(SolutionDir)\$(ProjectName)\include\Polyhedron;$(SolutionDir)\..\Dependence\CGAL-4.12\include;$(SolutionDir)\..\Dependence\CGAL-4.12\auxiliary\gmp\include;$(SolutionDir)\..\Dependence\LAStools\LASlib\inc;$(SolutionDir)\..\Dependence\LAStools\LASzip\src;$(SolutionDir)\..\Dependence\boost_1_67_0;$(SolutionDir)\..\Dependence\5.10\5.10.1\msvc2013_64\include;$(SolutionDir)\..\Dependence\5.10\5.10.1\msvc2013_64\include\QtWidgets;$(SolutionDir)\..\Dependence\5.10\5.10.1\msvc2013_64\include\QtGui;$(SolutionDir)\..\Dependence\5.10\5.10.1\msvc2013_64\include\QtCore;$(SolutionDir)\..\Dependence\tbb2018_20180411oss\include;$(SolutionDir)\..\Dependence\pcl-1.8.1\include\pcl-1.8;$(SolutionDir)\..\Dependence\Eigen\include\eigen3;$(SolutionDir)\..\Dependence\flann\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <TreatWChar_tAsBuiltInType>true</TreatWChar_tAsBuiltInType>
@@ -65,7 +65,7 @@
       <SubSystem>Console</SubSystem>
       <OutputFile>$(OutDir)\$(ProjectName).exe</OutputFile>
       <AdditionalLibraryDirectories>$(SolutionDir)\..\Dependence\pcl-1.8.1\lib;$(QTDIR)\lib;$(SolutionDir)\..\Dependence\LAStools\LASlib\lib;$(SolutionDir)\..\Dependence\boost_1_67_0\lib64-msvc-12.0;$(SolutionDir)\..\Dependence\CGAL-4.12\lib;$(SolutionDir)\..\Dependence\CGAL-4.12\lib\$(Configuration);$(SolutionDir)\..\Dependence\tbb2018_20180411oss\lib\intel64\vc12\;$(SolutionDir)\..\Dependence\CGAL-4.12\auxiliary\gmp\lib\;$(SolutionDir)\..\Dependence\flann\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>qtmain.lib;Qt5Core.lib;Qt5Gui.lib;Qt5Widgets.lib;pcl_common_release.lib;pcl_features_release.lib;pcl_filters_release.lib;pcl_io_ply_release.lib;pcl_io_release.lib;pcl_kdtree_release.lib;pcl_keypoints_release.lib;pcl_ml_release.lib;pcl_octree_release.lib;pcl_people_release.lib;pcl_recognition_release.lib;pcl_registration_release.lib;pcl_sample_consensus_release.lib;pcl_search_release.lib;pcl_segmentation_release.lib;pcl_stereo_release.lib;pcl_surface_release.lib;pcl_tracking_release.lib;pcl_visualization_release.lib;LASlib.lib;flann_cpp_s.lib;libCGAL_Qt5-vc120-mt-4.12.lib;libCGAL_ImageIO-vc120-mt-4.12.lib;libCGAL-vc120-mt-4.12.lib;tbb.lib;libgmp-10.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ProgramDatabaseFile />
     </Link>

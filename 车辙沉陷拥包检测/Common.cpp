@@ -47,25 +47,42 @@ void Common::ExtractColorCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, pcl
 	}
 }
 
-void Common::ExtractColorCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud)
+void Common::ExtractColorCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr &cloud)
 {
+	std::cout << "begin ExtractColorCloud..." << cloud->size() << std::endl;
 	pcl::PointCloud<pcl::PointXYZRGB>::Ptr out_cloud(new pcl::PointCloud<pcl::PointXYZRGB>);
 	out_cloud->reserve(cloud->size());
 	pcl::PointXYZRGB *trvPt;
+
+// 	int r, g, b;
+// 	r = g = b = -1;
 	for (int i = 0; i < cloud->size(); ++i)
 	{
 		trvPt = &cloud->at(i);
-		if (trvPt->r == 255 && trvPt->g == 255 && trvPt->b == 255)
+		
+
+// 		if (trvPt->r != r || trvPt->g != g || trvPt->b != b)
+// 		{
+// 			std::cout << (int)trvPt->r << " " << (int)trvPt->g << " " << (int)trvPt->b << std::endl;
+// 		}
+// 		r = trvPt->r;
+// 		g = trvPt->g;
+// 		b = trvPt->b;
+
+		if (trvPt->r == 254 && trvPt->g == 254 && trvPt->b == 254)
 		{
 			out_cloud->push_back(*trvPt);
 		}
 	}
 	cloud = out_cloud;
+
+	std::cout << "end ExtractColorCloud." << cloud->size() << std::endl;
 }
 
 void Common::GenerateCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, pcl::PointIndicesPtr inices)
 {
 	//for (pcl::PointCloud<pcl::PointXYZRGB>::iterator it = cloud->begin(); it != cloud->end(); ++it)
+	inices->indices.clear();
 	inices->indices.reserve(cloud->size());
 	for (int i = 0; i < cloud->size(); ++i)
 	{

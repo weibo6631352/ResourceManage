@@ -21,13 +21,12 @@ int main(int argc, char *argv[])
 	QApplication a(argc, argv);
 	QDialog w;
 
-	//Setting::ins().input_file_ = "C:/Users/wang/Desktop/190511_014154_60.las";
-	Setting::ins().input_file_ = "H:/data/src/city.las";
+	Setting::ins().input_file_ = "C:/Users/wang/Desktop/190511_014154_60.las";
 	Setting::ins().outdir_ = "C:/Users/wang/Desktop/";
 	Setting::ins().zone = 51;
 	Setting::ins().southhemi = false;
-	Setting::ins().sample_.gridSize = 0.3;
-	Setting::ins().gridProcess_.gridSize = 0.5; 
+	Setting::ins().sample_.gridSize = 0.08;
+	Setting::ins().gridProcess_.gridSize = 0.1; 
 	Setting::ins().liQunDian_.radius = 2; 
 	Setting::ins().liQunDian_.count = (0.7*Setting::ins().liQunDian_.radius *Setting::ins().liQunDian_.radius*3.14) / (Setting::ins().sample_.gridSize * Setting::ins().sample_.gridSize);
 	Setting::ins().groundExact_.minlDistance = 0.05;
@@ -78,8 +77,6 @@ int main(int argc, char *argv[])
 	pct::io::save_las_off(grid_cloud, Setting::ins().outdir_ + "grid_.las");
 
 
-
-
 	std::cout << "start BingHaiProcess..." << std::endl;
 	BingHaiProcess bh(gp->pointArr_, gp->row_, gp->col_, gp->size_);
 
@@ -94,7 +91,6 @@ int main(int argc, char *argv[])
 		std::cout << i << std::endl;
 		for (int j = 0; j < bh.column; ++j)
 		{
-			gp->pointArr_.get()[bh.column*i + j];
 			if (Common::FloatComp(gp->pointArr_.get()[bh.column*i + j], -10000))
 			{
 				continue;
@@ -111,13 +107,20 @@ int main(int argc, char *argv[])
  				pt->b = 0;
  			}
  
- 
  			if (bh.flag_cx.get()[i].get()[j] != 0)
  			{
  				pt->r = 0;
  				pt->g = 0;
 				pt->b = 255;
  			}
+
+// 			if (ptIndex < 2050)
+// 			{
+// 				pt = &binghai_cloud->at(ptIndex);
+// 				pt->r = 255;
+// 				pt->g = 0;
+// 				pt->b = 0;
+// 			}
 
 			ptIndex++;
 		}
@@ -126,10 +129,6 @@ int main(int argc, char *argv[])
 
 	pct::io::save_las_off(binghai_cloud, Setting::ins().outdir_ + "bingHai_.las");
 
-
 	w.exec();
-
-
-
 	return a.exec();
 }

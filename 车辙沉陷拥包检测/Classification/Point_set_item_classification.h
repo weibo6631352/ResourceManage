@@ -391,14 +391,9 @@ class Point_set_item_classification : public Item_classification_base
         ground_truth[*it] = m_training[*it];
       }
   
-	std::cout << "change_color..." << std::endl;
 	if (m_index_color == 1 || m_index_color == 2)
 	{
-		std::cout << "change_color...0" << std::endl;
-		//change_color(0);
-		std::cout << "change_color...1" << std::endl;
 		change_color(m_index_color);
-		std::cout << "change_color...2" << std::endl;
 	}
      
 

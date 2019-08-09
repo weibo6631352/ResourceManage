@@ -217,6 +217,10 @@ Point_set_item_classification::Point_set_item_classification(Scene_points_with_n
   update_comments_of_point_set_item();
 
   m_sowf = new Sum_of_weighted_features (m_labels, m_features);
+  m_ethz = nullptr;
+#ifdef CGAL_LINKED_WITH_OPENCV
+  m_random_forest = nullptr;
+#endif
 //   m_ethz = new ETHZ_random_forest (m_labels, m_features);
 // #ifdef CGAL_LINKED_WITH_OPENCV
 //   m_random_forest = new Random_forest (m_labels, m_features);
@@ -367,7 +371,6 @@ void Point_set_item_classification::change_color (int index)
     }
   else if (index_color == 1) // classif
     {
-		std::cout << "change_color..." << std::endl;
 		for (Point_set::const_iterator it = m_points->point_set()->begin();
 			it != m_points->point_set()->first_selected(); ++it)
 		{
@@ -532,12 +535,12 @@ void Point_set_item_classification::compute_features (std::size_t nb_scales)
   // 用计算出来的特征和label初始化分类器
   delete m_sowf;
   m_sowf = new Sum_of_weighted_features (m_labels, m_features);  // 初始加权特征分类器
-  delete m_ethz;
-  m_ethz = new ETHZ_random_forest (m_labels, m_features);  // 随机森林分类器
-#ifdef CGAL_LINKED_WITH_OPENCV
-  delete m_random_forest;
-  m_random_forest = new Random_forest (m_labels, m_features);  // opencv随机森林分类器
-#endif
+//   delete m_ethz;
+//   m_ethz = new ETHZ_random_forest (m_labels, m_features);  // 随机森林分类器
+// #ifdef CGAL_LINKED_WITH_OPENCV
+//   delete m_random_forest;
+//   m_random_forest = new Random_forest (m_labels, m_features);  // opencv随机森林分类器
+// #endif
   std::cerr << "Features = " << m_features.size() << std::endl;  
 }
 

@@ -642,9 +642,7 @@ bool Scene_points_with_normal_item::read_las_point_set(std::istream& stream)
 bool Scene_points_with_normal_item::write_las_point_set(std::ostream& stream) const
 {
   Q_ASSERT(d->m_points != NULL);
-  std::cout << "±£´æwrite_las_point_set...1" << std::endl;
   d->m_points->reset_indices();
-  std::cout << "±£´æwrite_las_point_set...2" << std::endl;
   return stream &&
     CGAL::write_las_point_set (stream, *(d->m_points));
 }
