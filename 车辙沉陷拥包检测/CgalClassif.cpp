@@ -26,6 +26,7 @@ bool CgalClassif::classif(std::string inputfile)
  
  	std::cout << "加载simple.las..." << std::endl;
  	boost::shared_ptr<Scene_points_with_normal_item> scene_item(pct::io::lasload(inputfile));
+	std::cout << "加载simple.las 完成" << scene_item->point_set()->size() << std::endl;
  	if (scene_item)
  	{
  		// 计算特征

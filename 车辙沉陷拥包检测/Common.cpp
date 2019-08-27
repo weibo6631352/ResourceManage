@@ -6,6 +6,7 @@
 #include <pcl/filters/radius_outlier_removal.h>
 
 #include <pcl/filters/statistical_outlier_removal.h>
+#include <pcl/segmentation/extract_clusters.h>
 
 #include "Setting.h"
 Common::Common()
@@ -30,6 +31,15 @@ void Common::ExtractCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, pcl::Poi
 	pcl::ExtractIndices<pcl::PointXYZRGB> extract;
 	extract.setInputCloud(cloud);
 	extract.setIndices(inices);
+	extract.filter(*out_cloud);
+}
+
+void Common::ExtractCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, pcl::PointIndices inices, pcl::PointCloud<pcl::PointXYZRGB>::Ptr out_cloud)
+{
+	pcl::PointIndicesPtr inicesptr(new pcl::PointIndices(inices));
+	pcl::ExtractIndices<pcl::PointXYZRGB> extract;
+	extract.setInputCloud(cloud);
+	extract.setIndices(inicesptr);
 	extract.filter(*out_cloud);
 }
 
@@ -136,7 +146,7 @@ void Common::OutlierRemoval(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, double
 {
 	pcl::RadiusOutlierRemoval<pcl::PointXYZRGB> sor;
 	sor.setInputCloud(cloud);
-	if (cloud_indices)
+	if (cloud_indices)
 		sor.setIndices(cloud_indices);
 	sor.setRadiusSearch(radius);
 	sor.setMinNeighborsInRadius(count);
@@ -162,4 +172,41 @@ void Common::OutlierRemoval(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, double
 // 		sor.filter(cloud_indices->indices);                    //存储
 // 	else
 // 		sor.filter(*cloud);
+}
+
+void Common::JuLeiFilter(pcl::PointCloud<pcl::PointXYZRGB>::Ptr &cloud, unsigned int threshold)
+{
+	pcl::search::KdTree<pcl::PointXYZRGB>::Ptr tree(new pcl::search::KdTree<pcl::PointXYZRGB>);
+	tree->setInputCloud(cloud);
+
+	std::vector<pcl::PointIndices> cluster_indices;
+	pcl::EuclideanClusterExtraction<pcl::PointXYZRGB> ec;   //歐式聚類物件
+	ec.setClusterTolerance(0.2);                     // 設定近鄰搜尋的搜尋半徑為2cm
+	ec.setMinClusterSize(0);                 //設定一個聚類需要的最少的點數目為100
+	ec.setMaxClusterSize(500000000);               //設定一個聚類需要的最大點數目為25000
+	ec.setSearchMethod(tree);                    //設定點雲的搜尋機制
+	ec.setInputCloud(cloud);
+	ec.extract(cluster_indices);           //從點雲中提取聚類，並將點雲索引儲存在cluster_indices中
+
+
+	pcl::PointCloud<pcl::PointXYZRGB>::Ptr res_cloud(new pcl::PointCloud<pcl::PointXYZRGB>);
+	int j = 0;
+	for (std::vector<pcl::PointIndices>::const_iterator it = cluster_indices.begin(); it != cluster_indices.end(); ++it)
+	{ 
+		std::cout << "cluter points count = " << it->indices.size() << std::endl;
+		if (it->indices.size() > threshold)
+		{
+			pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud_cluster(new pcl::PointCloud<pcl::PointXYZRGB>);
+			new pcl::PointIndices(*it);
+			ExtractCloud(cloud, *it, cloud_cluster);
+			*res_cloud += *cloud_cluster;
+		}
+		else
+		{
+			std::cout << "error cluter points count = " << it->indices.size() << std::endl;
+		}
+	}
+	std::cout << "cloud count = " << cloud->size() << std::endl;
+	std::cout << "res_cloud count = " << res_cloud->size() << std::endl;
+	cloud = res_cloud;
 }

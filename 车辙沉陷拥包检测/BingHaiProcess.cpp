@@ -175,6 +175,8 @@ void BingHaiProcess::mark_cx(int i, int j, int index){
  	}
  	//记面积
  	area++;
+	std::cout << "area++ = " << area << std::endl;
+
  	//int len = row;
  	//递归算法
 	if (j + 1 < column && cloud_.get()[i*column + j + 1] - GetAroundAvgHeight(i, j+1) <= cx_standard && flag_cx.get()[i].get()[j + 1] == 0) {
@@ -225,7 +227,9 @@ void BingHaiProcess::mark_yb(int i, int j, int index){
  	}
  	area++;
  	//int len = row;
+	std::cout << "area++ = " << area << std::endl;
 
+	std::cout << j + 1 << "<" << column << "\t" << cloud_.get()[i*column + j + 1] << "-" << GetAroundAvgHeight(i, j + 1) << ">=" << yb_standard << "\t" << flag_yb.get()[i].get()[j + 1]  << "==" << 0 << std::endl;
 
 	if (j + 1 < column && cloud_.get()[i*column + j + 1] - GetAroundAvgHeight(i, j + 1) >= yb_standard && flag_yb.get()[i].get()[j + 1] == 0) {
 		mark_yb(i, j + 1, index);
@@ -252,3 +256,21 @@ void BingHaiProcess::mark_yb(int i, int j, int index){
 		mark_yb(i - 1, j + 1, index);
 	}
  }
+
+std::ostream & operator<<(std::ostream & os, const BingHaiProcess::ChenXian & c)
+{
+	os << typeid(c).name() << " index:" << c.index << "\ti" << c.i << "\tj" << c.j << "\twidth" << c.width << "\tlength" << c.length << "\tarea" << c.area << "\tdeep" << c.deep;
+	return os;
+}
+
+std::ostream & operator<<(std::ostream & os, const BingHaiProcess::YongBao & c)
+{
+	os << typeid(c).name() << " index:" << c.index << "\ti" << c.i << "\tj" << c.j << "\twidth" << c.width << "\tlength" << c.length << "\tarea" << c.area << "\tdeep" << c.deep;
+	return os;
+}
+
+std::ostream & operator<<(std::ostream & os, const BingHaiProcess::CheZhe & c)
+{
+	os << typeid(c).name() << " index:" << c.index << "\ti" << c.i << "\tj" << c.j << "\twidth" << c.width << "\tlength" << c.length << "\tarea" << c.area << "\tdeep" << c.deep;
+	return os;
+}

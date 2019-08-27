@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 
@@ -10,7 +11,8 @@ class BingHaiProcess
 {
 public:
 	//定义三个结构体用于存放处理后的沉陷拥包车辙数据
-	struct ChenXian{
+	class ChenXian{
+	public:
 		int index;
 		int i;
 		int j;
@@ -18,8 +20,10 @@ public:
 		int length;
 		int area;
 		int deep;
+		friend std::ostream & operator<<(std::ostream & os, const ChenXian & c);
 	};
-	struct YongBao{
+	class YongBao{
+	public:
 		int index;
 		int i;
 		int j;
@@ -27,8 +31,10 @@ public:
 		int length;
 		int area;
 		int deep;
+		friend std::ostream & operator<<(std::ostream & os, const YongBao & c);
 	};
-	struct CheZhe{
+	class CheZhe{
+	public:
 		int index;
 		int i;
 		int j;
@@ -36,6 +42,7 @@ public:
 		int length;
 		int area;
 		int deep;
+		friend std::ostream & operator<<(std::ostream & os, const CheZhe & c);
 	};
 
 	BingHaiProcess(boost::shared_ptr<double> cloud, int row, int col, double gridsize);
@@ -66,10 +73,16 @@ protected:
 
 
 
-	int area ;
+	int area;
 	int i_min, i_max, j_min, j_max;
 	int deep ;
 
 	double gridSize_;
 };
 
+
+
+
+std::ostream & operator<<(std::ostream & os, const BingHaiProcess::ChenXian & c);
+std::ostream & operator<<(std::ostream & os, const BingHaiProcess::YongBao & c);
+std::ostream & operator<<(std::ostream & os, const BingHaiProcess::CheZhe & c);
